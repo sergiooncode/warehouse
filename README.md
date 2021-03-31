@@ -1,5 +1,11 @@
 # Warehouse
 
+Build the base image:
+```
+cd backend
+make build-base
+```
+
 To start the backend app, being at the top level of cloned repository:
 ```
 docker-compose -f docker-compose.yml up
@@ -26,7 +32,7 @@ make test
 # Infrastructure
 
 - Uses Flask and Flask-RESTX as infrastructure base.
-- In an MVP version (tagged as inmemory-mvp in github) an inmemory store is used based on the Flask config
+- In an MVP version (tagged as inmemory-mvp in github) an inmemory store is used based on the Flask config.
 
 ## Considerations
 
