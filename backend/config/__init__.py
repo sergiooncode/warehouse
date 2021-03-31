@@ -1,5 +1,8 @@
 import os
 
+from config.persistence.settings import MONGO_DB_HOST
+from config.persistence.settings import MONGO_DB_NAME
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -15,6 +18,13 @@ class Config:
 
 
 class LocalConfig(Config):
+    MONGODB_SETTINGS = {
+        "db": MONGO_DB_NAME,
+        "username": "",
+        "password": "",
+        "host": MONGO_DB_HOST,
+        "alias": "default",
+    }
     DEBUG = True
     ENV = "local"
 

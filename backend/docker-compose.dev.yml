@@ -1,11 +1,6 @@
 version: "3.8"
 
 services:
-  warehouse-backend-base:
-    image: warehouse-backend-base:latest
-    build:
-      context: .
-      dockerfile: docker/development/base/Dockerfile
   warehouse-backend:
     image: warehouse-backend:latest
     build:
@@ -13,7 +8,20 @@ services:
       dockerfile: docker/development/Dockerfile
     volumes:
       - ./:/warehouse-backend
+    env_file:
+      - ./docker/dev.env
     ports:
       - 88:88
     depends_on:
-      - warehouse-backend-base
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    container_name: warehouse_mongo
+    hostname: mongo.docker
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
