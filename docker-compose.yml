@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  warehouse-backend-base:
+    image: warehouse-backend-base:latest
+    build:
+      context: .
+      dockerfile: ./backend/docker/deployment/base/Dockerfile
+  warehouse-backend:
+    image: warehouse-backend:latest
+    container_name: warehouse-backend
+    build:
+      context: .
+      dockerfile: ./backend/docker/deployment/Dockerfile
+    volumes:
+      - ./backend:/warehouse-backend
+    ports:
+      - 88:88
+    depends_on:
+      - warehouse-backend-base
