@@ -1,6 +1,11 @@
+# Backend app (python, mongo)
 .idea/
 */*/__pycache__
 __pycache__
 backend/__pycache__
 */data
 data
+
+# Frontend app (node)
+frontend/node_modules
+frontend/build
