@@ -26,4 +26,4 @@ make unit-tests
 # Infrastructure
 
 - Uses Flask and Flask-RESTX as infrastructure base
-- In an MVP version (tagged as mvp in github) an inmemory store is used based on the Flask config
+- In an MVP version (tagged as inmemory-mvp in github) an inmemory store is used based on the Flask config
