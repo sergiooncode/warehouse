@@ -11,8 +11,13 @@ To start the backend app, being at the top level of cloned repository:
 docker-compose -f docker-compose.yml up
 ```
 
+To stop the backend app:
+```
+docker-compose -f docker-compose.yml down
+```
+
 It can be tested doing:
-- Get all products
+- Get all products with current availability
 
 ```
 curl http://localhost:88/products
@@ -21,6 +26,12 @@ curl http://localhost:88/products
 
 ```
 curl --header "Content-Type: application/json" --request POST --data '{"product_name":"Dining Chair","units_to_sell":1}' http://localhost:88/products
+```
+
+- Get all products and see the availability decreased after previous sale
+
+```
+curl http://localhost:88/products
 ```
 
 To run tests (after building on previous step):
@@ -33,6 +44,7 @@ make test
 
 - Uses Flask and Flask-RESTX as infrastructure base.
 - In an MVP version (tagged as inmemory-mvp in github) an inmemory store is used based on the Flask config.
+- In an following version (tagged as mongo-as-db in github) a MongoDB is used as store for the warehouse entities.
 
 ## Considerations
 
@@ -50,5 +62,14 @@ that is, accessing the persisted data and providing controllers to respond to re
 - Someone could consider that Products and Inventory are two different domains and should be separate but for
 simplicity it was chosen to keep them together. As the backend app would keep increasing its complexity for example
 when inventory is not only used to check product availability and removing inventory when selling probably it'd
-make sense to make Inventory its own backend service which a Products service would send requests to. 
+make sense to make Inventory its own backend service which a Products service would send requests to.
+
+- In the mongo-as-db version MongoDB was chosen because being a document-oriented DB fits well with the nature of data
+that it's going to store: products and inventory.
+
+- A CONTRIBUTING.md was added to describe the guidelines to follow when contributing to this repo.
+
+# Authors
+
+Owner: Sergio Perez <sperez4mba@gmail.com>
 
