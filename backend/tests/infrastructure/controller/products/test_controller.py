@@ -28,7 +28,7 @@ class TestProductsController(TestCase):
         )
 
         self.assertEqual("Not enough product availability", response.json["message"])
-        self.assertEqual(422, response.json["status_code"])
+        self.assertEqual(422, response.status_code)
 
     def test_sell_products_enough_availability(self):
         initial_inventory = deepcopy(self.app.config["WAREHOUSE_STORE"]["inventory"])
@@ -40,10 +40,20 @@ class TestProductsController(TestCase):
         )
 
         self.assertEqual("Product ordered fulfilled", response.json["message"])
-        self.assertEqual(200, response.json["status_code"])
+        self.assertEqual(200, response.status_code)
         self.assertEqual(12, initial_inventory["1"].stock)
         self.assertEqual(17, initial_inventory["2"].stock)
         self.assertEqual(2, initial_inventory["3"].stock)
         self.assertEqual(8, self.app.config["WAREHOUSE_STORE"]["inventory"]["1"].stock)
         self.assertEqual(9, self.app.config["WAREHOUSE_STORE"]["inventory"]["2"].stock)
         self.assertEqual(1, self.app.config["WAREHOUSE_STORE"]["inventory"]["3"].stock)
+
+    def test_sell_products_non_existant_product_name(self):
+        response = self.app_client.post(
+            "/products",
+            data=json.dumps({"product_name": "Futon", "units_to_sell": 1}),
+            content_type="application/json",
+        )
+
+        self.assertEqual("Product by that name doesnt exist", response.json["message"])
+        self.assertEqual(400, response.status_code)

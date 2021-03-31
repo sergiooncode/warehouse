@@ -5,14 +5,19 @@ from flask import request
 from flask_restx import Resource
 from src.infrastructure.controller.base import api
 
-from src.infrastructure.persistence.inmemory.repository.inmemory_article_inventory_reader_repository import \
-    InmemoryArticleInventoryReaderRepository
-from src.infrastructure.persistence.inmemory.repository.inmemory_canonical_product_reader_repository import \
-    InmemoryCanonicalProductReaderRepository
-from src.application.use_case.calculate_products_availability_service import CalculateProductAvailabilityService
+from src.infrastructure.persistence.inmemory.repository.inmemory_article_inventory_reader_repository import (
+    InmemoryArticleInventoryReaderRepository,
+)
+from src.infrastructure.persistence.inmemory.repository.inmemory_canonical_product_reader_repository import (
+    InmemoryCanonicalProductReaderRepository,
+)
+from src.application.use_case.calculate_products_availability_service import (
+    CalculateProductAvailabilityService,
+)
 from src.application.use_case.update_inventory_service import UpdateInventoryService
-from src.infrastructure.persistence.inmemory.repository.inventory_article_inventory_writer_repository import \
-    InmemoryArticleInventoryWriterRepository
+from src.infrastructure.persistence.inmemory.repository.inventory_article_inventory_writer_repository import (
+    InmemoryArticleInventoryWriterRepository,
+)
 
 products_ns = api.namespace("products", description="Products")
 
@@ -57,19 +62,18 @@ class ProductsController(Resource):
         product_availability = self.__product_availability_service.execute(
             [product_name]
         )
+        if product_name not in product_availability:
+            api.abort(HTTPStatus.BAD_REQUEST, "Product by that name doesnt exist")
+
         if not self.__is_there_enough_product_availability_for(
             product_name, units_to_sell, product_availability
         ):
-            return dict(
-                status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
-                message="Not enough product availability",
-            )
+            return api.abort(HTTPStatus.UNPROCESSABLE_ENTITY, "Not enough product availability")
         self.__inventory_update_service.execute(
             product_name=product_name, product_units_to_sell=units_to_sell
         )
         return dict(
-            status_code=HTTPStatus.OK,
-            message="Product ordered fulfilled",
+            message="Product ordered fulfilled"
         )
 
     def __is_there_enough_product_availability_for(
