@@ -1,14 +1,19 @@
 import json
-from copy import deepcopy
 from unittest import TestCase
 
 from src.app import app
+from src.infrastructure.persistence.mongoengine.model.article_inventory import (
+    MongoArticleInventory,
+)
+
+from bin.cli.seed_data import load_mongo_seed_data
 
 
 class TestProductsController(TestCase):
     def setUp(self) -> None:
         self.app = app
         self.app_client = app.test_client()
+        load_mongo_seed_data(loading_message=False)
 
     def test_list_products(self):
         response = self.app_client.get("/products")
@@ -31,8 +36,6 @@ class TestProductsController(TestCase):
         self.assertEqual(422, response.status_code)
 
     def test_sell_products_enough_availability(self):
-        initial_inventory = deepcopy(self.app.config["WAREHOUSE_STORE"]["inventory"])
-
         response = self.app_client.post(
             "/products",
             data=json.dumps({"product_name": "Dining Chair", "units_to_sell": 1}),
@@ -41,12 +44,15 @@ class TestProductsController(TestCase):
 
         self.assertEqual("Product ordered fulfilled", response.json["message"])
         self.assertEqual(200, response.status_code)
-        self.assertEqual(12, initial_inventory["1"].stock)
-        self.assertEqual(17, initial_inventory["2"].stock)
-        self.assertEqual(2, initial_inventory["3"].stock)
-        self.assertEqual(8, self.app.config["WAREHOUSE_STORE"]["inventory"]["1"].stock)
-        self.assertEqual(9, self.app.config["WAREHOUSE_STORE"]["inventory"]["2"].stock)
-        self.assertEqual(1, self.app.config["WAREHOUSE_STORE"]["inventory"]["3"].stock)
+        self.assertEqual(
+            8, MongoArticleInventory.objects(article_id="1").all()[0].stock
+        )
+        self.assertEqual(
+            9, MongoArticleInventory.objects(article_id="2").all()[0].stock
+        )
+        self.assertEqual(
+            1, MongoArticleInventory.objects(article_id="3").all()[0].stock
+        )
 
     def test_sell_products_non_existant_product_name(self):
         response = self.app_client.post(
