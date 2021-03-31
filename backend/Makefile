@@ -13,3 +13,6 @@ run-cmd:
 ## Usage: make unit-tests
 test:
 	$(MAKE) run-cmd cmd="nosetests"
+
+lint:
+	$(MAKE) run-cmd cmd="flake8 --config=setup.cfg --max-complexity=12 $(PYFILES)"

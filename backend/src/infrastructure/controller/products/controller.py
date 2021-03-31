@@ -1,6 +1,5 @@
 from http import HTTPStatus
 
-from flask import current_app
 from flask import request
 from flask_restx import Resource
 from src.application.use_case.calculate_products_availability_service import (
@@ -8,7 +7,6 @@ from src.application.use_case.calculate_products_availability_service import (
 )
 from src.application.use_case.update_inventory_service import UpdateInventoryService
 from src.infrastructure.controller.base import api
-
 from src.infrastructure.persistence.mongoengine.repository.mongoengine_article_inventory_reader_repository import (
     MongoengineArticleInventoryReaderRepository,
 )

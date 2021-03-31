@@ -71,8 +71,7 @@ class CalculateProductAvailabilityService:
         intermediate_availability = [
             self.__article_inventory_reader_repository.detail_inventory_by_id(
                 canonical_article.article_id
-            ).stock
-            // canonical_article.needed_amount
+            ).stock // canonical_article.needed_amount
             for canonical_article in all_canonical_products[
                 product_name
             ].containing_articles
