@@ -11,7 +11,8 @@ def create_app(config_name=os.getenv("ENVIRONMENT") or "default"):
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
-    load_seed_data()
+    with app.app_context():
+        load_seed_data()
 
     return app
 
