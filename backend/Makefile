@@ -8,5 +8,5 @@ run-cmd:
 
 ## [Run unit tests]
 ## Usage: make unit-tests
-unit-tests:
+test:
 	$(MAKE) run-cmd cmd="nosetests"
