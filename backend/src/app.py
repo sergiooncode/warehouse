@@ -17,7 +17,8 @@ def create_app(config_name=os.getenv("ENVIRONMENT") or "default"):
     with app.app_context():
         # Mongoengine setup
         db.init_app(app)
-        load_mongo_seed_data()
+        if config_name != "test":
+            load_mongo_seed_data()
 
         api.init_app(app)
 

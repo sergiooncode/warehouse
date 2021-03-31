@@ -70,8 +70,9 @@ def load_inmemory_seed_data():
     current_app.config["WAREHOUSE_STORE"] = session
 
 
-def load_mongo_seed_data():
-    print("Loading mongo seed data...", file=sys.stderr)
+def load_mongo_seed_data(loading_message=True):
+    if loading_message:
+        print("Loading mongo seed data...", file=sys.stderr)
 
     MongoArticleInventory.objects.delete()
     MongoCanonicalProduct.objects.delete()

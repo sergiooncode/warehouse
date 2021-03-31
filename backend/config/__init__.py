@@ -29,4 +29,19 @@ class LocalConfig(Config):
     ENV = "local"
 
 
-config = {"default": LocalConfig}
+class TestConfig(Config):
+    MONGODB_SETTINGS = {
+        "db": MONGO_DB_NAME,
+        "username": "",
+        "password": "",
+        "host": MONGO_DB_HOST,
+        "alias": "default",
+    }
+    DEBUG = True
+    ENV = "test"
+
+
+config = {
+    "test": TestConfig,
+    "default": LocalConfig
+}

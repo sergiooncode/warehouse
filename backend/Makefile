@@ -7,7 +7,7 @@ build-base:
 	docker build -f docker/development/base/Dockerfile -t warehouse-backend-base .
 
 run-cmd:
-	docker-compose -f docker-compose.dev.yml run --rm warehouse-backend $(cmd)
+	docker-compose -f docker-compose.test.yml run --rm warehouse-backend $(cmd)
 
 ## [Run unit tests]
 ## Usage: make unit-tests

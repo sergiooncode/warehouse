@@ -10,7 +10,7 @@ services:
     volumes:
       - ./backend:/warehouse-backend
     env_file:
-      - ./backend/docker/dev.env
+      - backend/docker/dev.env
     ports:
       - 88:88
     depends_on:

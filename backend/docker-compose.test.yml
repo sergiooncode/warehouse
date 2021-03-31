@@ -9,7 +9,7 @@ services:
     volumes:
       - ./:/warehouse-backend
     env_file:
-      - ./docker/dev.env
+      - docker/test.env
     ports:
       - 88:88
     depends_on:
