@@ -53,3 +53,8 @@ class TestCalculateProductAvailabilityUseCase(TestCase):
         product_availability = self.service.execute()
         self.assertEqual("2 x Glass Box", product_availability["2 x Glass Box"].name)
         self.assertEqual(1, product_availability["2 x Glass Box"].availability_in_units)
+
+    def test_calculate_for_product_names(self):
+        product_availability = self.service.execute(product_names=["2 x Glass Box"])
+        self.assertEqual("2 x Glass Box", product_availability["2 x Glass Box"].name)
+        self.assertEqual(1, product_availability["2 x Glass Box"].availability_in_units)

@@ -22,23 +22,39 @@ class CalculateProductAvailabilityService:
             article_inventory_reader_repository
         )
 
-    def execute(self) -> Dict[str, Product]:
+    def execute(self, product_names=[]) -> Dict[str, Product]:
         product_availability = {}
 
-        all_canonical_products = (
-            self.__canonical_product_reader_repository.list_all_products()
-        )
+        if not product_names:
+            all_canonical_products = (
+                self.__canonical_product_reader_repository.list_all_products()
+            )
 
-        for product_name in all_canonical_products:
-            intermediate_availability = self.__calculate_whole_containing_articles(
-                all_canonical_products, product_name
+            for product_name in all_canonical_products:
+                intermediate_availability = self.__calculate_whole_containing_articles(
+                    all_canonical_products, product_name
+                )
+                availability_in_units = min(intermediate_availability)
+                product_availability[product_name] = Product(
+                    name=product_name,
+                    price=all_canonical_products[product_name].price,
+                    availability_in_units=availability_in_units,
+                )
+        else:
+            canonical_products = self.__canonical_product_reader_repository.list_products_by_product_names(
+                names=product_names
             )
-            availability_in_units = min(intermediate_availability)
-            product_availability[product_name] = Product(
-                name=product_name,
-                price=all_canonical_products[product_name].price,
-                availability_in_units=availability_in_units,
-            )
+
+            for product_name in canonical_products:
+                intermediate_availability = self.__calculate_whole_containing_articles(
+                    canonical_products, product_name
+                )
+                availability_in_units = min(intermediate_availability)
+                product_availability[product_name] = Product(
+                    name=product_name,
+                    price=canonical_products[product_name].price,
+                    availability_in_units=availability_in_units,
+                )
 
         return product_availability
 
