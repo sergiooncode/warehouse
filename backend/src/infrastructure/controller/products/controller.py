@@ -53,6 +53,8 @@ class ProductsController(Resource):
         )
         if product_name not in product_availability:
             api.abort(HTTPStatus.BAD_REQUEST, "Product by that name doesnt exist")
+        if units_to_sell <= 0:
+            api.abort(HTTPStatus.BAD_REQUEST, "Number of units to sell not allowed")
 
         if not self.__is_there_enough_product_availability_for(
             product_name, units_to_sell, product_availability

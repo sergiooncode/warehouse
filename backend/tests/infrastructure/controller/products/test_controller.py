@@ -63,3 +63,13 @@ class TestProductsController(TestCase):
 
         self.assertEqual("Product by that name doesnt exist", response.json["message"])
         self.assertEqual(400, response.status_code)
+
+    def test_sell_products_units_to_sell_not_allowed(self):
+        response = self.app_client.post(
+            "/products",
+            data=json.dumps({"product_name": "Dining Chair", "units_to_sell": 0}),
+            content_type="application/json",
+        )
+
+        self.assertEqual("Number of units to sell not allowed", response.json["message"])
+        self.assertEqual(400, response.status_code)
