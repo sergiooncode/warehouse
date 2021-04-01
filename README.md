@@ -76,7 +76,8 @@ that it's going to store: products and inventory.
 
 ## Minor Considerations
 
-- The price was mentioned in the Assignment so it was decided to set to a fixed value of 100 for the only two products.
+- The price was mentioned in the Assignment but it wasn't included in the data files so it was decided to set
+to a fixed value of 100 for the only two products.
 
 # Authors
 
