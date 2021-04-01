@@ -6,17 +6,17 @@ cd backend
 make build-base
 ```
 
-To start the backend app, being at the top level of cloned repository:
+To start the backend and frontend apps, being at the top level of cloned repository:
 ```
 docker-compose -f docker-compose.yml up
 ```
 
-To stop the backend app:
+To stop the apps:
 ```
 docker-compose -f docker-compose.yml down
 ```
 
-It can be tested doing:
+The backend can be tested doing:
 - Get all products with current availability
 
 ```
@@ -34,11 +34,14 @@ curl --header "Content-Type: application/json" --request POST --data '{"product_
 curl http://localhost:88/products
 ```
 
-To run tests (after building on previous step):
+To run backend tests (after building on previous step):
 ```
 cd backend
 make test
 ```
+
+To see the frontend web app open http://localhost:3000/ on your browser.
+
 
 # Infrastructure
 
