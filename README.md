@@ -43,8 +43,9 @@ make test
 # Infrastructure
 
 - Uses Flask and Flask-RESTX as infrastructure base.
-- In an MVP version (tagged as inmemory-mvp in github) an inmemory store is used based on the Flask config.
-- In an following version (tagged as mongo-as-db in github) a MongoDB is used as store for the warehouse entities.
+- In an MVP version (tagged as inmemory-mvp in this repo) an inmemory store is used based on the Flask config.
+- In an following version (tagged as mongo-as-db in this repo) a MongoDB is used as store for the warehouse entities.
+- The frontend app is based on ReactJS and can be considered an quick-and-dirty MVP.
 
 ## Considerations
 
@@ -64,10 +65,18 @@ simplicity it was chosen to keep them together. As the backend app would keep in
 when inventory is not only used to check product availability and removing inventory when selling probably it'd
 make sense to make Inventory its own backend service which a Products service would send requests to.
 
+- An event sourcing pattern could be used when the inventory is updated. An event defined in advance could be triggered
+on an inventory update, this event could be published and other services would be subscribed to these events
+and handle the inventory update accordingly on their side. 
+
 - In the mongo-as-db version MongoDB was chosen because being a document-oriented DB fits well with the nature of data
 that it's going to store: products and inventory.
 
 - A CONTRIBUTING.md was added to describe the guidelines to follow when contributing to this repo.
+
+## Minor Considerations
+
+- The price was mentioned in the Assignment so it was decided to set to a fixed value of 100 for the only two products.
 
 # Authors
 
