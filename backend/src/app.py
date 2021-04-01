@@ -2,6 +2,7 @@ import os
 
 from config import config
 from flask import Flask
+from flask_cors import CORS
 from src.infrastructure.controller.base import api
 
 from src.infrastructure.persistence.mongoengine.model import db
@@ -21,6 +22,8 @@ def create_app(config_name=os.getenv("ENVIRONMENT") or "default"):
             load_mongo_seed_data()
 
         api.init_app(app)
+
+        CORS(app)
 
     return app
 
