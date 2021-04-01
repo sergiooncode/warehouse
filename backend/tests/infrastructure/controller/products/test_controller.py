@@ -18,10 +18,10 @@ class TestProductsController(TestCase):
     def test_list_products(self):
         response = self.app_client.get("/products")
 
-        expected_json = {
-            "Dining Chair": {"availability_in_units": 2, "price": 100},
-            "Dinning Table": {"availability_in_units": 1, "price": 100},
-        }
+        expected_json = [
+            {"Dining Chair": {"availability_in_units": 2, "price": 100.0}},
+            {"Dinning Table": {"availability_in_units": 1, "price": 100.0}},
+        ]
 
         self.assertEqual(expected_json, response.json)
 
@@ -71,5 +71,7 @@ class TestProductsController(TestCase):
             content_type="application/json",
         )
 
-        self.assertEqual("Number of units to sell not allowed", response.json["message"])
+        self.assertEqual(
+            "Number of units to sell not allowed", response.json["message"]
+        )
         self.assertEqual(400, response.status_code)

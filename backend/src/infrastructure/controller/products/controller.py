@@ -34,15 +34,17 @@ class ProductsController(Resource):
 
     def get(self):
         product_data = self.__product_availability_service.execute()
-        response_data = {
-            product_name: {
-                "availability_in_units": product_data[
-                    product_name
-                ].availability_in_units,
-                "price": product_data[product_name].price,
+        response_data = [
+            {
+                product_name: {
+                    "availability_in_units": product_data[
+                        product_name
+                    ].availability_in_units,
+                    "price": product_data[product_name].price,
+                }
             }
             for product_name in product_data
-        }
+        ]
         return response_data
 
     def post(self):
